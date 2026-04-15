@@ -1,0 +1,9 @@
+# images.yaml
+# List of container images to sign.
+# Pass this file to sign-images.sh with:
+#   sign-images.sh --file images.yaml
+
+images:
+  - ghcr.io/myorg/app1:v1.0.0
+  - ghcr.io/myorg/app2:latest
+  - docker.io/library/nginx:1.27

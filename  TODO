@@ -1,0 +1,4 @@
+Create container image that has cosign installed.
+Create script to sign container images and upload keys and certs to hashicorp vault, script should be able to handle single container or yaml list of container images
+create test script that stands up vault and runs the script that signs.
+kv mapping for vault would be like kv/container-images/<image-name>/signing
