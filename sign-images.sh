@@ -125,14 +125,6 @@ sign_image() {
         --output-key-prefix "$work_dir/signing" \
         2>/dev/null
 
-    # Create a self-signed X.509 certificate for the signing key
-    openssl req -new -x509 \
-        -key  "$work_dir/signing.key" \
-        -out  "$work_dir/signing.crt" \
-        -days "$CERT_DAYS" \
-        -subj "/CN=${name}/O=container-image-signing/OU=cosign" \
-        2>/dev/null
-
     echo "  [${name}] Signing image: ${image}"
 
     local cosign_args=(
@@ -142,7 +134,9 @@ sign_image() {
         --tlog-upload=false
         --yes
     )
-    [[ "$COSIGN_ALLOW_INSECURE" == "true" ]] && cosign_args+=(--allow-insecure-registry)
+    if [[ "$COSIGN_ALLOW_INSECURE" == "true" ]]; then
+        cosign_args+=(--allow-insecure-registry --allow-http-registry)
+    fi
 
     COSIGN_PASSWORD="$COSIGN_PASSWORD" cosign "${cosign_args[@]}" "$image" \
         || { echo "  [${name}] WARNING: cosign sign failed — image may not exist in registry" >&2; }

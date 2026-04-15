@@ -197,6 +197,8 @@ docker run --rm \
     cosign verify \
         --key /tmp/verify.pub \
         --insecure-ignore-tlog \
+        --allow-http-registry \
+        --allow-insecure-registry \
         "${REGISTRY_CONTAINER}:5000/test/alpine:latest" \
     && echo "    Signature verified OK" \
     || echo "    (Signature verification failed — see output above)"
